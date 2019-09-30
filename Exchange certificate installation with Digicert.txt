@@ -1,28 +1,25 @@
 DigiCert:
 
-Køb/forny certifikatet, gennemgå verifikationen, og vent til certifikatet kan downloades.
-Download DigiCert's Utility: https://www.digicert.com/util/DigiCertUtil.zip
-Åben programmet, gå til "Account", og log ind.
-Sæt flueben i "Show completed orders". 
-Find det nye certifikat på listen og tryk "Install".
-Tryk derefter på "Install" igen.
-Nu er certifikatet importet i Exchange, du kan gå under "SSL" i DigiCert Utility og give den et "Friendly Name".
-Gå nu i Exchange Administrative Center.
-Efter du har logget ind, gå under Servere > Certifikater.
-Dobbelttryk på det nye certifikat, gå under Tjenester, sæt flueben i "SMTP, IMAP, POP, IIS".
-Efter du har gemt indstillingerne, går du i IIS Manager.
+Buy/Renew Certificate, follow the verification steps, wait until the certificate is ready for download.
+Download DigiCert Utility: https://www.digicert.com/util/DigiCertUtil.zip
+Open the program, go to "Account", and log in.
+Check the box "Show completed orders". 
+Find the new certificate in the list and press "Install".
+Press "Install" again.
+Now the certificate is imported into Exchange, you can give it a friendly name under "SSL" in DigiCert Utility.
+Go to the Exchange Administration Center.
+Login, then go under "Servers" > Certificates.
+Doublepress the new certificate > Go under Services > Check the box in "SMTP", "IMAP", "POP", "IIS" > Press "Save". 
+Open IIS Manager.
 Server > Sites > Exchange Back End.
-Under "Actions" kolonnen vælg "Bindings...".
-Vælg "https", tryk "Edit...". 
-Vælg det nye certifikat under "SSL Certificate".
-Gem/luk "Edit Site Binding", gem/luk "Site Bindings"
-Test at det nye certifikat virker!
+Under "Actions", select "Bindings...".
+Press "https", Press "Edit...". 
+Select the new certificate under "SSL Certificate".
+Save and Exit "Edit Site Binding", Save and Exit "Site Bindings"
+Test that the new certificate is working, by going to https://mail.example.com
 
 
-Guide baseret på nedenstående instruktioner fra DigiCert:
-
+Guide based on documentation from DigiCert:
 https://www.digicert.com/ssl-certificate-installation-microsoft-exchange-2013.htm
-
 https://www.digicert.com/csr-ssl-installation/iis-8-and-8.5.htm#ssl_certificate_install
-
 https://www.digicert.com/ssl-certificate-installation.htm
