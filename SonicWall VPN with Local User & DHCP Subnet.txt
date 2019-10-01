@@ -1,7 +1,104 @@
-Begin
+Part 1 - DHCP Server setup:
+
+Begin by logging into your SonicWall firewall.
+I'd recommend exporting your configuration before making any changes > "Manage" > "Firmware & Backup", select "Import/Export Configuration", select"Export Configuration".
+When you've saved that, go to "Manage" > "Network" > "DHCP Server".
+Under "DHCPv4 Server Lease Scopes", Press "ADD DYNAMIC".
+Create a "Range Start", "Range End", and "Subnet Mask". Make sure the scope is not within the LAN. (Feel free to change the "Lease Time", although the default sufficient).
+Go to the "DNS/WINS" tab.
+If you have local DNS servers I'd suggest writing them here, as well as adding a public DNS if all local DNS servers are offline.
+Take a look at the "Advanced" tab, none of it is required so we'll skip it.
+Press "Save".
+
+
+Part 2 - Creating Users & Groups (Skip this part if you already have users created).
+
+Go to "Manage" > "Users" > "Local Users & Groups".
+Press "Add". Minimum requirements are a "Name" and "Password". Feel free to add more like an email address etc.
+Go to the "Groups" tab. Assign the user to the VPN group, by default this is "Trusted Users", if you have a special group for VPN make sure you assign it here.
+Go to "VPN Access" tab. Assign access to the LAN interface, this is usually "X0 Subnet". Check your own setup, and make sure it's your LAN interface Subnet.
+
+
+Part 3 - Creating the VPN Profile.
+
+Go to "Manage" > "VPN" > "Base Settings".
+Click the edit icon next to "WAN GroupVPN".
+In the "General" tab, select the "Authentication Method", (I'd suggest using "IKE using Preshared Secret", unless you have the infrastructure in place already).
+Under "Shared Secret" either use the auto-generated, or create your own.
+Go to "Proposals", I'd suggest changing the default settings to improve security. I'll leave some recommendations below.
+Go to "Advanced" tab, under "Client Authentication" Check the box "Require Authentication of VPN Clients by XAUTH". Then select the "User group for XAUTH users". 
+Go to "Client" tab. First decide if you should allow Username and Password Caching.
+Under "Client Connections" > "Virtual Adapter Settings" select "DHCP Lease"
+Save and Exit.
+
+
+Part 4 - DHCP over VPN.
+
+Start by clicking "Configure" next to the drop down menu.
+Check the box "Use Internal DHCP Server" and "For Global VPN Client".
+Under "Relay IP Address" enter a reserved IP address from the same subnet as the DHCP Pool we created earlier. For example: Octet1.Octet2.Octet3.1
+Save and Exit.
+
+
+Part 5 - Client setup and test.
+
+Download the Global VPN Client from https://mysonicwall.com
+Install the program.
+We'll need the public IP or a FQDN to connect. Use https://whatsmyip.com/ to find your public IP, or set up a subdomain for the VPN: vpn.example.com
+We'll also need the Preshared Secret we created in Part 3.
+In GVC, go to File > New...
+Enter the IP address or FQDN from before, and give it a recognizable name. Then save and exit the window.
+Highlight the connection we created, then press enable.
+You'll be prompted for the preshared key, copy and paste it here. Press OK.
+Enter your username and password. Press OK.
+Now you should be connected, and be able to reach internal resources.
 
 
 
+
+VPN configurations:
+Bad:
+
+Phase 1:
+DH Group:       NaN
+Encryption:     3DES
+Authentication: SHA1
+Life Time:      NaN    
+
+Phase 2:
+Protocol:       ESP
+Encryption:     3DES
+Authentication: SHA1
+Life Time:      NaN  
+
+
+Better:
+
+Phase 1:
+DH Group:       NaN
+Encryption:     AES-192
+Authentication: SHA1
+Life Time:      NaN    
+
+Phase 2:
+Protocol:       ESP
+Encryption:     AES-192
+Authentication: SHA1
+Life Time:      NaN  
+
+Best:
+
+Phase 1:
+DH Group:       NaN
+Encryption:     AES-256
+Authentication: SHA512
+Life Time:      NaN    
+
+Phase 2:
+Protocol:       ESP
+Encryption:     AES-256
+Authentication: SHA512
+Life Time:      NaN  
 
 
 
